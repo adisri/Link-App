@@ -23,9 +23,12 @@ export default class LinkApp extends Component {
           ref={(cam) => {
             this.camera = cam;
           }}
+          onZoomChanged={(e) => {
+            console.log('zoomed!');
+          }}
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>Capture</Text>
+          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>Take Picture</Text>
         </Camera>
       </View>
     );
