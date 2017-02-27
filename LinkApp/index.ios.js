@@ -14,8 +14,14 @@ import {
   View
 } from 'react-native';
 import Camera from 'react-native-camera';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default class LinkApp extends Component {
+  constructor(props) {
+    super(props);
+    this.parsePictureForLinks = this.parsePictureForLinks.bind(this);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -26,19 +32,31 @@ export default class LinkApp extends Component {
           onZoomChanged={(e) => {
             console.log('zoomed!');
           }}
+
+
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>Take Picture</Text>
+         
+        <Icon.Button color="#4b4b4b" name="camera-retro" onPress={this.takePicture.bind(this)} style={styles.capture}>
+          <Text>Take Picture</Text>
+        </Icon.Button>
+
         </Camera>
       </View>
     );
   }
 
+  parsePictureForLinks(imgPath) {
+    console.log(imgPath);
+  }
+
   takePicture() {
     this.camera.capture()
-      .then((data) => console.log(data))
-      .catch(err => console.error(err));
+      .then((data) => parsePictureForLinks(data.path))
+      .catch(err => console.error("error: " + err));
   }
+
+
 }
 
 const styles = StyleSheet.create({
@@ -53,12 +71,9 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width
   },
   capture: {
+    backgroundColor: "white",
     flex: 0,
-    backgroundColor: '#fff',
     borderRadius: 5,
-    color: '#000',
-    padding: 10,
-    margin: 40
   },
 });
 
