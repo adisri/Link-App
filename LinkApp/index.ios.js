@@ -22,22 +22,27 @@ export default class LinkApp extends Component {
     this.parsePictureForLinks = this.parsePictureForLinks.bind(this);
   }
 
+  
+
   render() {
     return (
       <View style={styles.container}>
-        <Camera
+        <Camera defaultOnFocusComponent = {true}
           ref={(cam) => {
             this.camera = cam;
           }}
           onZoomChanged={(e) => {
             console.log('zoomed!');
           }}
+          onFocusChanged={(e) => {
+            console.log('focused!');
+          }}
 
 
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
          
-        <Icon.Button color="#4b4b4b" name="camera-retro" onPress={this.takePicture.bind(this)} style={styles.capture}>
+        <Icon.Button color="#4b4b4b" size={30} name="camera-retro" onPress={this.takePicture.bind(this)} style={styles.capture}>
           <Text>Take Picture</Text>
         </Icon.Button>
 
@@ -46,14 +51,16 @@ export default class LinkApp extends Component {
     );
   }
 
-  parsePictureForLinks(imgPath) {
-    console.log(imgPath);
-  }
+  
 
   takePicture() {
     this.camera.capture()
-      .then((data) => parsePictureForLinks(data.path))
+      .then((data) => this.parsePictureForLinks(data.path)) //functions in the class need to be called with this.
       .catch(err => console.error("error: " + err));
+  }
+  //process image here!!!
+  parsePictureForLinks(imgPath) {
+    console.log(imgPath);
   }
 
 
@@ -73,7 +80,9 @@ const styles = StyleSheet.create({
   capture: {
     backgroundColor: "white",
     flex: 0,
+    height: 50,
     borderRadius: 5,
+
   },
 });
 
